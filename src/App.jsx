@@ -120,6 +120,24 @@ export default function App() {
                     <EmptyState onNewProject={handleNewProject} onLoadProject={handleLoadClick} />
                 }
             </main>
+            
+            <footer class="bg-gray-900 text-white py-6 text-center">
+                <div class="text-sm mb-2">
+                Desenvolvido por <span class="font-semibold">Flávio Alves dos Santos (Tissu)</span> - Todos os direitos reservados &copy; 2025
+                </div>
+                <div class="flex justify-center gap-4 mt-2">
+                <a href="https://github.com/mflavioas" target="_blank" rel="noopener noreferrer" class="hover:text-gray-400 transition">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1.1 1.5 1.1.9 1.5 2.3 1 2.9.8.1-.7.3-1 .5-1.3-2.6-.3-5.4-1.3-5.4-5.8 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5.8 18 6.1 18 6.1c.6 1.6.2 2.8.1 3.1.8.9 1.2 2 1.2 3.3 0 4.6-2.8 5.5-5.4 5.8.3.2.6.7.6 1.4v2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.65 18.35.5 12 .5z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/mflavioas/" target="_blank" rel="noopener noreferrer" class="hover:text-gray-400 transition">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                    <path d="M20.45 20.45h-3.6v-5.5c0-1.3 0-3-1.85-3s-2.15 1.4-2.15 2.9v5.6h-3.6V9h3.45v1.6h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.45 4.45 5.6v6.2zM5.34 7.45a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.13 20.45H3.55V9h3.58v11.45zM22.22 0H1.78C.8 0 0 .77 0 1.7v20.6C0 23.23.8 24 1.78 24h20.44c.98 0 1.78-.77 1.78-1.7V1.7C24 .77 23.2 0 22.22 0z"/>
+                    </svg>
+                </a>
+                </div>
+            </footer>
             <ActivityModal isOpen={activityModal.isOpen} onClose={closeActivityModal} activity={activityModal.activity} onSave={saveActivity} isReadOnly={activityModal.isReadOnly || !isEditable} />
             <ProjectModal isOpen={projectModal.isOpen} onClose={() => setProjectModal({isOpen: false, isCreating: false})} onSave={saveProjectDetails} isCreating={projectModal.isCreating} />
         </div>
