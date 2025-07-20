@@ -1,0 +1,88 @@
+{
+  "header": {
+    "title": "PERT Visual",
+    "plannedEndDate": "Data Final Planejada",
+    "estimatedEndDate": "Data Final Prevista",
+    "projectStatus": "Status do Projeto",
+    "os": "OS",
+    "start": "Início",
+    "realStart": "Início Real",
+    "responsibles": "Responsáveis",
+    "none": "Nenhum"
+  },
+  "buttons": {
+    "newProject": "Novo Projeto",
+    "newActivity": "Nova Atividade",
+    "saveJson": "Salvar JSON",
+    "loadJson": "Carregar JSON",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "edit": "Editar",
+    "addResponsible": "Adicionar Responsável",
+    "addAttachment": "Adicionar Anexo"
+  },
+  "status": {
+    "planning": "Planejamento",
+    "inProgress": "Em Andamento",
+    "completed": "Concluído",
+    "WithError": "Com Erro",
+    "interrupted": "Interrompido",
+    "pending": "Pendente",
+    "completedWithErrors": "Concluído com erros"    
+  },
+  "activityTypes": {
+    "planning": "Planejamento",
+    "execution": "Execução",
+    "validation": "Validação"
+  },
+  "modals": {
+    "projectNewTitle": "Criar Novo Projeto",
+    "projectEditTitle": "Detalhes do Projeto",
+    "projectName": "Nome do Projeto",
+    "serviceOrder": "Ordem de Serviço (OS)",
+    "startDateTime": "Data e Hora de Início",
+    "responsibles": "Responsáveis",
+    "namePlaceholder": "Nome",
+    "phonePlaceholder": "Telefone",
+    "isEditable": "Projeto Editável",
+    "activityNewTitle": "Nova Atividade",
+    "activityEditTitle": "Editar Atividade",
+    "activityDetailsTitle": "Detalhes da Atividade",
+    "activityName": "Nome",
+    "duration": "Tempo (horas)",
+    "duration2": "Duração:",
+    "status": "Status",
+    "type": "Tipo",
+    "dependencies": "Dependências (Fluxo Normal)",
+    "contingencyFlow": "Em Caso de Erro, Ir Para... (Fluxo de Contingência)",
+    "description": "Descrição",
+    "attachments": "Anexos",
+    "addAttachments": "Adicionar anexo"
+  },
+  "contextMenu": {
+    "viewDetails": "Ver Detalhes",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "changeStatus": "Alterar Status"
+  },
+  "emptyState": {
+    "welcome": "Bem-vindo ao PERT Visual",
+    "noProject": "Nenhum projeto carregado.",
+    "loadProject": "Carregar Projeto"
+  },
+  "formats": {
+    "datetime": "dd/MM/yyyy HH:mm"
+  },
+  "footer": {
+    "developerBy": "Desenvolvido por",
+    "allRightsReserved": "Todos os direitos reservados"
+  },
+  "alerts": {
+    "confirmDelete": "Tem certeza que deseja excluir a atividade ?",
+    "errorReadingJson": "Erro ao ler o arquivo JSON.",
+    "nameRequired": "O nome da atividade é obrigatório.",
+    "blockReverseStatus": "Ação bloqueada. Não é possível reverter o status desta atividade, pois as seguintes tarefas já foram iniciadas:",
+    "blockDependencies": "Ação bloqueada. Conclua as seguintes dependências primeiro:"
+  }
+}

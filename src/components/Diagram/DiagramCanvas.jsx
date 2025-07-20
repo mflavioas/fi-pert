@@ -2,14 +2,17 @@ import React, { useState, useMemo, useCallback } from 'react';
 import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import { useApp } from '../../context/AppContext';
 import CustomActivityNode from './CustomActivityNode';
+import { useTranslation } from 'react-i18next';
 
 const nodeTypes = { activity: CustomActivityNode };
 
 export default function DiagramCanvas() {
     const { projectData, deleteActivity, openActivityModal, updateActivityStatus, projectStatus } = useApp();
+    
+    const { t } = useTranslation();
     const [contextMenu, setContextMenu] = useState(null);
-
-    const canChangeStatus = projectStatus !== 'Concluído';
+   
+    const canChangeStatus = projectStatus !== t('status.completed');
 
     const onNodeContextMenu = useCallback((event, node) => {
         event.preventDefault();
@@ -17,7 +20,7 @@ export default function DiagramCanvas() {
     }, []);
 
     const onNodeDoubleClick = useCallback((event, node) => {
-        if (projectData.editavel && node.data.status !== 'Concluído') {
+        if (projectData.editavel && node.data.status !== t('status.completed')) {
             openActivityModal(node.data, false);
         } else {
             openActivityModal(node.data, true);
@@ -28,7 +31,7 @@ export default function DiagramCanvas() {
     
     const handleDelete = () => {
         if (contextMenu?.node) {
-            if(window.confirm(`Tem certeza que deseja excluir a atividade "${contextMenu.node.data.nome}"?`)) {
+            if(window.confirm(t('alerts.confirmDelete'))) {
                deleteActivity(parseInt(contextMenu.node.id));
             }
         }
@@ -109,12 +112,12 @@ export default function DiagramCanvas() {
                         source: depId.toString(),
                         target: act.id.toString(),
                         type: 'smoothstep',
-                        animated: act.status === 'Em Andamento',
+                        animated: act.status === t('status.inProgress'),
                         style: { strokeWidth: 2 }
                     });
                 });
             }
-            if (act.status === 'Concluído com erros' && act.onErrorGoTo) {
+            if (act.status === t('status.completedWithErrors') && act.onErrorGoTo) {
                 act.onErrorGoTo.forEach(errorDepId => {
                     edges.push({
                         id: `err-${act.id}-${errorDepId}`,
@@ -132,7 +135,7 @@ export default function DiagramCanvas() {
 
     if (!projectData) return null;
 
-    const canEditStructure = projectData.editavel && contextMenu?.node.data.status !== 'Concluído';
+    const canEditStructure = projectData.editavel && contextMenu?.node.data.status !== t('status.completed');
 
     return (
         <div className="h-full w-full">
@@ -157,23 +160,23 @@ export default function DiagramCanvas() {
                     style={{ top: contextMenu.mouseY, left: contextMenu.mouseX }}
                     className="absolute z-50 bg-white rounded-md shadow-lg py-1 w-48"
                 >
-                    <button onClick={handleViewDetails} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver Detalhes</button>
+                    <button onClick={handleViewDetails} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">{t('contextMenu.viewDetails')}</button>
                     <button 
                         onClick={handleEdit} 
                         disabled={!canEditStructure}
                         className={`block w-full text-left px-4 py-2 text-sm ${canEditStructure ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}
                     >
-                        Editar
+                        {t('buttons.edit')}
                     </button>
-                    <button onClick={handleDelete} disabled={!projectData.editavel} className={`block w-full text-left px-4 py-2 text-sm ${projectData.editavel ? 'text-red-600 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Excluir</button>
+                    <button onClick={handleDelete} disabled={!projectData.editavel} className={`block w-full text-left px-4 py-2 text-sm ${projectData.editavel ? 'text-red-600 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('contextMenu.delete')}</button>
                     
                     <div className="border-t my-1 border-gray-200"></div>
-                    <p className={`px-4 pt-2 pb-1 text-xs ${canChangeStatus ? 'text-gray-500' : 'text-gray-400'}`}>Alterar Status</p>
-                    <button onClick={() => handleStatusChange('Pendente')} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Pendente</button>
-                    <button onClick={() => handleStatusChange('Em Andamento')} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Em Andamento</button>
-                    <button onClick={() => handleStatusChange('Concluído')} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Concluído</button>
-                    <button onClick={() => handleStatusChange('Concluído com erros')} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-red-500 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Concluído com erros</button>
-                    <button onClick={() => handleStatusChange('Interrompido')} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-yellow-600 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>Interrompido</button>
+                    <p className={`px-4 pt-2 pb-1 text-xs ${canChangeStatus ? 'text-gray-500' : 'text-gray-400'}`}>{t('contextMenu.changeStatus')}</p>
+                    <button onClick={() => handleStatusChange(t('status.pending'))} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('status.pending')}</button>
+                    <button onClick={() => handleStatusChange(t('status.inProgress'))} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('status.inProgress')}</button>
+                    <button onClick={() => handleStatusChange(t('status.completed'))} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('status.completed')}</button>
+                    <button onClick={() => handleStatusChange(t('status.completedWithErrors'))} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-red-500 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('status.completedWithErrors')}</button>
+                    <button onClick={() => handleStatusChange(t('status.interrupted'))} disabled={!canChangeStatus} className={`block w-full text-left px-4 py-2 text-sm ${canChangeStatus ? 'text-yellow-600 hover:bg-gray-100' : 'text-gray-400 cursor-not-allowed'}`}>{t('status.interrupted')}</button>
                 </div>
             )}
         </div>

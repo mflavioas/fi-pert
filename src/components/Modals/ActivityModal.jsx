@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function ActivityModal({ isOpen, onClose, activity, onSave, isReadOnly }) {
     const { projectData, tiposAtividade } = useApp();
     const [formData, setFormData] = useState({});
     const fileInputRef = useRef(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const defaultData = {
@@ -12,7 +14,7 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
             nome: '',
             tempo_execucao_horas: 8,
             dependencia: [],
-            status: 'Pendente',
+            status: t('status.pending'),
             tipo_id: 1,
             descricao: '',
             onErrorGoTo: [],
@@ -68,7 +70,7 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
     const handleSubmit = (e) => {
         e.preventDefault();
         if(!formData.nome) {
-            alert('O nome da atividade é obrigatório.');
+            alert(t('errors.activityNameRequired'));
             return;
         }
         onSave(formData);
@@ -76,57 +78,57 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
     };
     
     const otherActivities = projectData?.atividades.filter(a => a.id !== formData.id) || [];
-
+console.log(formData, otherActivities);
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
             <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-                <h2 className="text-xl font-bold mb-4">{isReadOnly ? "Detalhes da Atividade" : (activity ? 'Editar Atividade' : 'Nova Atividade')}</h2>
+                <h2 className="text-xl font-bold mb-4">{isReadOnly ? t('modals.activityDetailsTitle') : (activity ? t('modals.activityEditTitle') : t('modals.activityNewTitle'))}</h2>
                 <form onSubmit={handleSubmit}>
                     <fieldset disabled={isReadOnly} className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Nome</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.activityName')}</label>
                                 <input type="text" name="nome" value={formData.nome || ''} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100 disabled:bg-gray-200" required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Tempo (horas)</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.duration')}</label>
                                 <input type="number" name="tempo_execucao_horas" value={formData.tempo_execucao_horas || 1} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" min="1" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Status</label>
-                                <select name="status" value={formData.status || 'Pendente'} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200">
-                                    <option>Pendente</option>
-                                    <option>Em Andamento</option>
-                                    <option>Concluído</option>
-                                    <option>Concluído com erros</option>
-                                    <option>Interrompido</option>
+                                <select name="status" value={formData.status || t('status.pending')} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200">
+                                    <option>{t('status.pending')}</option>
+                                    <option>{t('status.inProgress')}</option>
+                                    <option>{t('status.completed')}</option>
+                                    <option>{t('status.completedWithErrors')}</option>
+                                    <option>{t('status.interrupted')}</option>
                                 </select>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Tipo</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.type')}</label>
                                 <select name="tipo_id" value={formData.tipo_id || 1} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200">
-                                    {tiposAtividade.map(tipo => <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>)}
+                                    {tiposAtividade.map(tipo => <option key={tipo.id} value={tipo.id}>{t(tipo.nameKey)}</option>)}
                                 </select>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Dependências (Fluxo Normal)</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.dependencies')}</label>
                                 <select multiple name="dependencia" value={formData.dependencia || []} onChange={handleMultiSelectChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 h-24 disabled:bg-gray-200">
                                     {otherActivities.map(act => <option key={act.id} value={act.id}>{act.nome}</option>)}
                                 </select>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Em Caso de Erro, Ir Para... (Fluxo de Contingência)</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.contingencyFlow')}</label>
                                 <select multiple name="onErrorGoTo" value={formData.onErrorGoTo || []} onChange={handleMultiSelectChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 h-24 disabled:bg-gray-200">
                                     {otherActivities.map(act => <option key={act.id} value={act.id}>{act.nome}</option>)}
                                 </select>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">Descrição</label>
+                                <label className="block text-sm font-medium text-gray-700">{t('modals.description')}</label>
                                 <textarea name="descricao" value={formData.descricao || ''} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" rows="2"></textarea>
                             </div>
                         </div>
                         <div className="md:col-span-2 border-t pt-4">
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">Anexos</h3>
+                            <h3 className="text-lg font-medium text-gray-800 mb-2">{t('modals.attachments')}</h3>
                             <div className="space-y-2">
                                 {formData.anexos && formData.anexos.map((anexo, index) => (
                                     <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
@@ -144,7 +146,7 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
                             {!isReadOnly && (
                                 <>
                                     <button type="button" onClick={() => fileInputRef.current.click()} className="mt-2 px-4 py-2 text-sm bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                        Adicionar Anexo
+                                        {t('modals.addAttachments')}
                                     </button>
                                     <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
                                 </>
@@ -152,8 +154,8 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
                         </div>
                     </fieldset>
                     <div className="mt-6 flex justify-end gap-3">
-                        <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Fechar</button>
-                        {!isReadOnly && <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Salvar</button>}
+                        <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">{t('buttons.close')}</button>
+                        {!isReadOnly && <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{t('buttons.save')}</button>}
                     </div>
                 </form>
             </div>

@@ -1,0 +1,88 @@
+{
+  "header": {
+    "title": "PERT Visual",
+    "plannedEndDate": "Planned End Date",
+    "estimatedEndDate": "Estimated End Date",
+    "projectStatus": "Project Status",
+    "os": "Service Order",
+    "start": "Start",
+    "realStart": "Actual Start",
+    "responsibles": "Responsible Parties",
+    "none": "None"
+  },
+  "buttons": {
+    "newProject": "New Project",
+    "newActivity": "New Activity",
+    "saveJson": "Save JSON",
+    "loadJson": "Load JSON",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "edit": "Edit",
+    "addResponsible": "Add Responsible",
+    "addAttachment": "Add Attachment"
+  },
+  "status": {
+    "planning": "Planning",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "WithError": "With Error",
+    "interrupted": "Interrupted",
+    "pending": "Pending",
+    "completedWithErrors": "Completed with Errors"
+  },
+  "activityTypes": {
+    "planning": "Planning",
+    "execution": "Execution",
+    "validation": "Validation"
+  },
+  "modals": {
+    "projectNewTitle": "Create New Project",
+    "projectEditTitle": "Project Details",
+    "projectName": "Project Name",
+    "serviceOrder": "Service Order (SO)",
+    "startDateTime": "Start Date and Time",
+    "responsibles": "Responsible Parties",
+    "namePlaceholder": "Name",
+    "phonePlaceholder": "Phone",
+    "isEditable": "Editable Project",
+    "activityNewTitle": "New Activity",
+    "activityEditTitle": "Edit Activity",
+    "activityDetailsTitle": "Activity Details",
+    "activityName": "Name",
+    "duration": "Time (hours)",
+    "duration2": "Duration:",
+    "status": "Status",
+    "type": "Type",
+    "dependencies": "Dependencies (Normal Flow)",
+    "contingencyFlow": "In Case of Error, Go To... (Contingency Flow)",
+    "description": "Description",
+    "attachments": "Attachments",
+    "addAttachments": "Add Attachment"
+  },
+  "contextMenu": {
+    "viewDetails": "View Details",
+    "edit": "Edit",
+    "delete": "Delete",
+    "changeStatus": "Change Status"
+  },
+  "emptyState": {
+    "welcome": "Welcome to PERT Visual",
+    "noProject": "No project loaded.",
+    "loadProject": "Load Project"
+  },
+  "formats": {
+    "datetime": "MM/dd/yyyy HH:mm"
+  },
+  "footer": {
+    "developerBy": "Developed by",
+    "allRightsReserved": "All rights reserved"
+  },
+  "alerts": {
+    "confirmDelete": "Are you sure you want to delete this activity?",
+    "errorReadingJson": "Error reading the JSON file.",
+    "nameRequired": "Activity name is required.",
+    "blockReverseStatus": "Action blocked. Cannot revert the status of this activity because the following tasks have already started:",
+    "blockDependencies": "Action blocked. Complete the following dependencies first:"
+  }
+}

@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useState, useMemo, useCallback, useRef } from 'react';
 import { initialConfig, emptyProjectTemplate } from '../config/initialData.js';
 import { calculateProjectEndDate } from '../core/pertCalculator.js';
+import { useTranslation } from 'react-i18next';
 
 const AppContext = createContext();
 export const useApp = () => useContext(AppContext);
 
 export function AppProvider({ children }) {
+
+    const { t } = useTranslation();
     const [projectData, setProjectData] = useState(null);
     const [tiposAtividade] = useState(initialConfig.tiposAtividade);
     const [activityModal, setActivityModal] = useState({ isOpen: false, activity: null, isReadOnly: false });
@@ -17,24 +20,24 @@ export function AppProvider({ children }) {
 
     const projectStatus = useMemo(() => {
         if (!projectData || !projectData.atividades || projectData.atividades.length === 0) {
-            return "Planejamento";
+            return t('status.planning');
         }
         const activities = projectData.atividades;
         
         const objMenorId = activities.reduce((min, obj) => obj.id > min.id ? obj : min, { id: -Infinity });
-        if (objMenorId.status === 'Pendente') return "Planejamento";
+        if (objMenorId.status === t('status.pending')) return t('status.planning');
 
-        const finishedStatuses = ['Concluído', 'Concluído com erros', 'Interrompido'];
+        const finishedStatuses = [t('status.completed'), t('status.completedWithErrors'), t('status.interrupted')];
         const isFinished = activities.every(act => finishedStatuses.includes(act.status));
         const objMaiorId = activities.reduce((max, obj) => obj.id > max.id ? obj : max, { id: -Infinity });
-        
+        console.log('objMaiorId', objMaiorId, activities, isFinished, finishedStatuses);
         if (isFinished) {
-            if (objMaiorId.status === 'Concluído') return "Concluído";
-            if (objMaiorId.status === 'Interrompido') return "Interrompido";
-            return "Com Erro";
+            if (objMaiorId.status === t('status.completed')) return t('status.completed');
+            if (objMaiorId.status === t('status.interrupted')) return t('status.interrupted');
+            return t('status.WithError');
         }
 
-        return "Em Andamento";
+        return t('status.inProgress');
     }, [projectData]);
 
     const handleNewProject = useCallback(() => {
@@ -46,7 +49,7 @@ export function AppProvider({ children }) {
         const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(projectData, null, 2))}`;
         const link = document.createElement('a');
         link.href = jsonString;
-        link.download = `projeto_${projectData.os || 'export'}.json`;
+        link.download = `project.json`;
         link.click();
     }, [projectData]);
 
@@ -61,7 +64,7 @@ export function AppProvider({ children }) {
                 const jsonData = JSON.parse(e.target.result);
                 setProjectData(jsonData);
             } catch (error) {
-                alert("Erro ao ler o arquivo JSON.");
+                alert(t('errors.errorReadingFile'));
             }
         };
         reader.readAsText(file);
@@ -130,20 +133,20 @@ export function AppProvider({ children }) {
             return;
         }
 
-        const finishedStatuses = ['Concluído', 'Concluído com erros', 'Interrompido'];
+        const finishedStatuses = [t('status.completed'), t('status.completedWithErrors'), t('status.interrupted')];
 
         if (finishedStatuses.includes(activityToUpdate.status) && !finishedStatuses.includes(newStatus)) {
             const subsequentActivities = projectData.atividades.filter(act => act.dependencia?.includes(activityId));
-            const blockingActivities = subsequentActivities.filter(act => act.status === 'Em Andamento' || finishedStatuses.includes(act.status));
+            const blockingActivities = subsequentActivities.filter(act => act.status === t('status.inProgress') || finishedStatuses.includes(act.status));
 
             if (blockingActivities.length > 0) {
                 const blockingNames = blockingActivities.map(act => act.nome).join(', ');
-                alert(`Ação bloqueada. Não é possível reverter o status desta atividade, pois as seguintes tarefas já foram iniciadas: ${blockingNames}.`);
+                alert(t('alerts.blockReverseStatus') + ` ${blockingNames}.`);
                 return;
             }
         }
 
-        if ((newStatus === 'Em Andamento' || newStatus === 'Concluído')) {
+        if ((newStatus === t('status.inProgress') || newStatus === t('status.completed'))) {
             const activitiesMap = new Map(projectData.atividades.map(a => [a.id, a]));
             
             const incompleteDependencies = (activityToUpdate.dependencia || []).filter(depId => {
@@ -155,7 +158,7 @@ export function AppProvider({ children }) {
                 const parentActivities = projectData.atividades.filter(parent => parent.dependencia?.includes(depId));
                 
                 const isBypassed = parentActivities.some(parent => 
-                    parent.status === 'Concluído com erros' && parent.onErrorGoTo && parent.onErrorGoTo.length > 0
+                    parent.status === t('status.completedWithErrors') && parent.onErrorGoTo && parent.onErrorGoTo.length > 0
                 );
 
                 if (isBypassed) {
@@ -167,14 +170,14 @@ export function AppProvider({ children }) {
 
             if (incompleteDependencies.length > 0) {
                 const depNames = incompleteDependencies.map(depId => activitiesMap.get(depId)?.nome).join(', ');
-                alert(`Ação bloqueada. Conclua as seguintes dependências primeiro: ${depNames}.`);
+                alert([t('alerts.blockDependencies')] + depNames);
                 return;
             }
         }
 
         let updatedProjectData = { ...projectData };
 
-        const isFirstToStart = newStatus === 'Em Andamento' && !projectData.atividades.some(a => a.status === 'Em Andamento' || finishedStatuses.includes(a.status));
+        const isFirstToStart = newStatus === t('status.inProgress') && !projectData.atividades.some(a => a.status === t('status.inProgress') || finishedStatuses.includes(a.status));
         if (isFirstToStart && !updatedProjectData.data_hora_inicio_real) {
             updatedProjectData.data_hora_inicio_real = new Date().toISOString();
         }
