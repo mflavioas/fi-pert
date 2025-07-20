@@ -1,0 +1,12 @@
+# Ignora a pasta de módulos do Node local
+node_modules
+
+# Ignora a pasta de build local (se existir)
+dist
+
+# Ignora arquivos e pastas do Git
+.git
+.gitignore
+
+# Ignora arquivos de ambiente
+.env
