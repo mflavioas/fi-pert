@@ -6,6 +6,8 @@ O **PERT Visual** é uma aplicação web interativa, do tipo single-page, projet
 
 A aplicação é totalmente client-side, o que significa que roda inteiramente no navegador sem a necessidade de um backend complexo. Os projetos podem ser salvos e carregados localmente através de arquivos JSON, garantindo portabilidade e controle total dos dados pelo usuário.
 
+Acesse a url para conhecer: [fi-pert](https://precious-clafoutis-92cbc8.netlify.app/)
+
 ## Funcionalidades Principais
 
 - **Criação e Edição de Projetos:** Defina o nome do projeto, Ordem de Serviço (OS), data de início planejada e adicione múltiplos responsáveis.
