@@ -86,8 +86,8 @@ export default function ProjectModal({ isOpen, onClose, onSave, isCreating }) {
                                 <h3 className="text-lg font-medium text-gray-800 mb-2">{t('modals.responsibles')}</h3>
                                 {formData.responsaveis && formData.responsaveis.map((resp, index) => (
                                     <div key={resp.id || index} className="flex items-center gap-2 mb-2">
-                                        <input type="text" placeholder={t('modals.namePlaceholder')} value={resp.nome || ''} onChange={(e) => handleResponsavelChange(index, t('modals.activityName'), e.target.value)} className="block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" />
-                                        <input type="text" placeholder={t('modals.phonePlaceholder')} value={resp.telefone || ''} onChange={(e) => handleResponsavelChange(index, t('modals.phonePlaceholder'), e.target.value)} className="block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" />
+                                        <input type="text" placeholder={t('modals.namePlaceholder')} value={resp.nome || ''} onChange={(e) => handleResponsavelChange(index, 'nome', e.target.value)} className="block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" />
+                                        <input type="text" placeholder={t('modals.phonePlaceholder')} value={resp.telefone || ''} onChange={(e) => handleResponsavelChange(index, 'telefone', e.target.value)} className="block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" />
                                         <button type="button" onClick={() => removeResponsavel(index)} disabled={isLocked} className={`px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 ${isLocked && 'btn-disabled'}`}>-</button>
                                     </div>
                                 ))}

@@ -30,7 +30,7 @@ export function AppProvider({ children }) {
         const finishedStatuses = [t('status.completed'), t('status.completedWithErrors'), t('status.interrupted')];
         const isFinished = activities.every(act => finishedStatuses.includes(act.status));
         const objMaiorId = activities.reduce((max, obj) => obj.id > max.id ? obj : max, { id: -Infinity });
-        console.log('objMaiorId', objMaiorId, activities, isFinished, finishedStatuses);
+
         if (isFinished) {
             if (objMaiorId.status === t('status.completed')) return t('status.completed');
             if (objMaiorId.status === t('status.interrupted')) return t('status.interrupted');

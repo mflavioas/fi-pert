@@ -54,7 +54,7 @@ export default function App() {
     };
 
     const displayStartDate = isProjectLoaded ? (projectData.data_hora_inicio_real || projectData.data_hora_inicio) : null;
-    const startDateLabel = isProjectLoaded && projectData.data_hora_inicio_real ? [t('header.starterReal')] : [t('header.start')];
+    const startDateLabel = isProjectLoaded && projectData.data_hora_inicio_real ? [t('header.realStart')] : [t('header.start')];
 
     return (
         <div className="h-screen w-screen bg-gray-100 flex flex-col">
