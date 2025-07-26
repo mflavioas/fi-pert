@@ -54,11 +54,13 @@
     "duration2": "Duração:",
     "status": "Status",
     "type": "Tipo",
-    "dependencies": "Dependências (Fluxo Normal)",
-    "contingencyFlow": "Em Caso de Erro, Ir Para... (Fluxo de Contingência)",
+    "dependencies": "Dependências",
     "description": "Descrição",
     "attachments": "Anexos",
-    "addAttachments": "Adicionar anexo"
+    "addAttachments": "Adicionar anexo",
+    "addComment": "Adicionar comentário",
+    "newComment": "Novo comentário",
+    "comments": "Comentários"
   },
   "contextMenu": {
     "viewDetails": "Ver Detalhes",

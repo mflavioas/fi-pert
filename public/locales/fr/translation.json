@@ -54,11 +54,13 @@
     "duration2": "Durée :",
     "status": "Statut",
     "type": "Type",
-    "dependencies": "Dépendances (flux normal)",
-    "contingencyFlow": "En cas d'erreur, aller à... (flux de contingence)",
+    "dependencies": "Dépendances",
     "description": "Description",
     "attachments": "Pièces jointes",
-    "addAttachments": "Ajouter une pièce jointe"
+    "addAttachments": "Ajouter une pièce jointe",
+    "addComment": "Ajouter un commentaire",
+    "newComment": "Nouveau commentaire",
+    "comments": "Commentaires"
   },
   "contextMenu": {
     "viewDetails": "Voir les détails",

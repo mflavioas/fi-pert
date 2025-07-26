@@ -54,11 +54,13 @@
     "duration2": "Duration:",
     "status": "Status",
     "type": "Type",
-    "dependencies": "Dependencies (Normal Flow)",
-    "contingencyFlow": "In Case of Error, Go To... (Contingency Flow)",
+    "dependencies": "Dependencies",
     "description": "Description",
     "attachments": "Attachments",
-    "addAttachments": "Add Attachment"
+    "addAttachments": "Add Attachment",
+    "addComment": "Add Comment",
+    "newComment": "New Comment",
+    "comments": "Comments"
   },
   "contextMenu": {
     "viewDetails": "View Details",

@@ -18,26 +18,20 @@ export function AppProvider({ children }) {
     const estimatedEndDate = useMemo(() => calculateProjectEndDate(projectData), [projectData]);
     const plannedEndDate = useMemo(() => calculateProjectEndDate(projectData, false), [projectData]);
 
+console.log('Project Status:', projectData);
+
     const projectStatus = useMemo(() => {
         if (!projectData || !projectData.atividades || projectData.atividades.length === 0) {
             return t('status.planning');
         }
         const activities = projectData.atividades;
-        
-        const objMenorId = activities.reduce((min, obj) => obj.id > min.id ? obj : min, { id: -Infinity });
+        console.log('Activities:', activities);
+        const objMenorId = activities.reduce((min, obj) => obj.id < min.id ? obj : min, { id: Infinity });
+        console.log('Activities:', activities, objMenorId);
         if (objMenorId.status === t('status.pending')) return t('status.planning');
-
-        const finishedStatuses = [t('status.completed'), t('status.completedWithErrors'), t('status.interrupted')];
-        const isFinished = activities.every(act => finishedStatuses.includes(act.status));
         const objMaiorId = activities.reduce((max, obj) => obj.id > max.id ? obj : max, { id: -Infinity });
-
-        if (isFinished) {
-            if (objMaiorId.status === t('status.completed')) return t('status.completed');
-            if (objMaiorId.status === t('status.interrupted')) return t('status.interrupted');
-            return t('status.WithError');
-        }
-
-        return t('status.inProgress');
+        if (objMaiorId.status === t('status.pending')) return t('status.inProgress');
+        return objMaiorId.status;
     }, [projectData]);
 
     const handleNewProject = useCallback(() => {
@@ -158,7 +152,7 @@ export function AppProvider({ children }) {
                 const parentActivities = projectData.atividades.filter(parent => parent.dependencia?.includes(depId));
                 
                 const isBypassed = parentActivities.some(parent => 
-                    parent.status === t('status.completedWithErrors') && parent.onErrorGoTo && parent.onErrorGoTo.length > 0
+                    parent.status === t('status.completedWithErrors')
                 );
 
                 if (isBypassed) {

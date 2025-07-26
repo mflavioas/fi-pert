@@ -17,8 +17,9 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
             status: t('status.pending'),
             tipo_id: 1,
             descricao: '',
-            onErrorGoTo: [],
-            anexos: []
+            anexos: [],
+            comentarios: [],
+            newComment: ''
         };
         setFormData(activity ? { ...defaultData, ...activity } : defaultData);
     }, [activity, isOpen]);
@@ -77,6 +78,22 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
         onClose();
     };
     
+    const handleAddComment = () => {
+        if (formData.newComment.trim() === '') return;
+        setFormData(prev => ({
+            ...prev,
+            comentarios: [...prev.comentarios, prev.newComment],
+            newComment: ''
+        }));
+    };
+
+    const handleRemoveComment = (indexToRemove) => {
+        setFormData(prev => ({
+            ...prev,
+            comentarios: prev.comentarios.filter((_, index) => index !== indexToRemove)
+        }));
+    };
+
     const otherActivities = projectData?.atividades.filter(a => a.id !== formData.id) || [];
 
     return (
@@ -117,12 +134,6 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
                                 </select>
                             </div>
                             <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700">{t('modals.contingencyFlow')}</label>
-                                <select multiple name="onErrorGoTo" value={formData.onErrorGoTo || []} onChange={handleMultiSelectChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 h-24 disabled:bg-gray-200">
-                                    {otherActivities.map(act => <option key={act.id} value={act.id}>{act.nome}</option>)}
-                                </select>
-                            </div>
-                            <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-700">{t('modals.description')}</label>
                                 <textarea name="descricao" value={formData.descricao || ''} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" rows="2"></textarea>
                             </div>
@@ -151,6 +162,39 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
                                     <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
                                 </>
                             )}
+                        </div>
+                        <div className="md:col-span-2 border-t pt-4">
+                            {!isReadOnly && (
+                                <div className="md:col-span-2">
+                                    <textarea 
+                                        name="newComment"
+                                        value={formData.newComment || ''}
+                                        onChange={handleChange} 
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 disabled:bg-gray-200" rows="2">
+                                    </textarea>
+                                    <button
+                                        type="button"
+                                        onClick={handleAddComment}
+                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                    >
+                                        {t('modals.addComment')}
+                                    </button>
+                                </div>
+                            )}
+
+                            <h3 className="text-lg font-medium text-gray-800 mb-2">{t('modals.comments')}</h3>
+                            <div className="space-y-2">
+                                {formData.comentarios && formData.comentarios.map((comentario, index) => (
+                                    <div key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded-md">
+                                        <span className="truncate pr-4">{comentario}</span>
+                                        {!isReadOnly && (
+                                            <button type="button" onClick={() => handleRemoveComment(index)} className="text-red-500 hover:text-red-700 font-bold">
+                                                &times;
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </fieldset>
                     <div className="mt-6 flex justify-end gap-3">

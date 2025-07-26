@@ -117,18 +117,6 @@ export default function DiagramCanvas() {
                     });
                 });
             }
-            if (act.status === t('status.completedWithErrors') && act.onErrorGoTo) {
-                act.onErrorGoTo.forEach(errorDepId => {
-                    edges.push({
-                        id: `err-${act.id}-${errorDepId}`,
-                        source: act.id.toString(),
-                        target: errorDepId.toString(),
-                        type: 'smoothstep',
-                        animated: true,
-                        style: { stroke: '#ef4444', strokeWidth: 2, strokeDasharray: '5 5' }
-                    });
-                });
-            }
         });
         return { nodes, edges };
     }, [projectData]);
