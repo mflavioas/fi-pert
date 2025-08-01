@@ -13,8 +13,8 @@
   "buttons": {
     "newProject": "New Project",
     "newActivity": "New Activity",
-    "saveJson": "Save JSON",
-    "loadJson": "Load JSON",
+    "saveJson": "Save",
+    "loadJson": "Load",
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close",
@@ -82,7 +82,7 @@
   },
   "alerts": {
     "confirmDelete": "Are you sure you want to delete this activity?",
-    "errorReadingJson": "Error reading the JSON file.",
+    "errorReadingJson": "Error reading file.",
     "nameRequired": "Activity name is required.",
     "blockReverseStatus": "Action blocked. Cannot revert the status of this activity because the following tasks have already started:",
     "blockDependencies": "Action blocked. Complete the following dependencies first:"

@@ -13,8 +13,8 @@
   "buttons": {
     "newProject": "Nouveau projet",
     "newActivity": "Nouvelle activité",
-    "saveJson": "Enregistrer JSON",
-    "loadJson": "Charger JSON",
+    "saveJson": "Enregistrer",
+    "loadJson": "Charger",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "close": "Fermer",
@@ -82,7 +82,7 @@
   },
   "alerts": {
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette activité ?",
-    "errorReadingJson": "Erreur lors de la lecture du fichier JSON.",
+    "errorReadingJson": "Erreur lors de la lecture du fichier.",
     "nameRequired": "Le nom de l'activité est requis.",
     "blockReverseStatus": "Action bloquée. Impossible de revenir à l'état précédent car les tâches suivantes ont déjà commencé :",
     "blockDependencies": "Action bloquée. Terminez d'abord les dépendances suivantes :"

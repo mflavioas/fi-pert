@@ -18,16 +18,12 @@ export function AppProvider({ children }) {
     const estimatedEndDate = useMemo(() => calculateProjectEndDate(projectData), [projectData]);
     const plannedEndDate = useMemo(() => calculateProjectEndDate(projectData, false), [projectData]);
 
-console.log('Project Status:', projectData);
-
     const projectStatus = useMemo(() => {
         if (!projectData || !projectData.atividades || projectData.atividades.length === 0) {
             return t('status.planning');
         }
         const activities = projectData.atividades;
-        console.log('Activities:', activities);
         const objMenorId = activities.reduce((min, obj) => obj.id < min.id ? obj : min, { id: Infinity });
-        console.log('Activities:', activities, objMenorId);
         if (objMenorId.status === t('status.pending')) return t('status.planning');
         const objMaiorId = activities.reduce((max, obj) => obj.id > max.id ? obj : max, { id: -Infinity });
         if (objMaiorId.status === t('status.pending')) return t('status.inProgress');

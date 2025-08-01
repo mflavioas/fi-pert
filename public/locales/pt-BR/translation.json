@@ -13,8 +13,8 @@
   "buttons": {
     "newProject": "Novo Projeto",
     "newActivity": "Nova Atividade",
-    "saveJson": "Salvar JSON",
-    "loadJson": "Carregar JSON",
+    "saveJson": "Salvar",
+    "loadJson": "Carregar",
     "save": "Salvar",
     "cancel": "Cancelar",
     "close": "Fechar",
@@ -82,7 +82,7 @@
   },
   "alerts": {
     "confirmDelete": "Tem certeza que deseja excluir a atividade ?",
-    "errorReadingJson": "Erro ao ler o arquivo JSON.",
+    "errorReadingJson": "Erro ao ler o projeto.",
     "nameRequired": "O nome da atividade é obrigatório.",
     "blockReverseStatus": "Ação bloqueada. Não é possível reverter o status desta atividade, pois as seguintes tarefas já foram iniciadas:",
     "blockDependencies": "Ação bloqueada. Conclua as seguintes dependências primeiro:"

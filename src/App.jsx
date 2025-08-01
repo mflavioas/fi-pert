@@ -8,6 +8,8 @@ import LanguageSwitcher from './components/UI/LanguageSwitcher';
 import ActivityModal from './components/Modals/ActivityModal';
 import ProjectModal from './components/Modals/ProjectModal';
 import { useTranslation } from 'react-i18next';
+import apiConfig from './config/apiConfig';
+import axios from 'axios';
 
 export default function App() {
     const {
@@ -20,8 +22,6 @@ export default function App() {
         fileInputRef,
         setProjectModal,
         handleNewProject,
-        handleSave,
-        handleLoadClick,
         handleFileChange,
         openActivityModal,
         closeActivityModal,
@@ -55,6 +55,45 @@ export default function App() {
 
     const displayStartDate = isProjectLoaded ? (projectData.data_hora_inicio_real || projectData.data_hora_inicio) : null;
     const startDateLabel = isProjectLoaded && projectData.data_hora_inicio_real ? [t('header.realStart')] : [t('header.start')];
+
+    const handleLoadClickUnified = async () => {
+        if (apiConfig.baseURL && apiConfig.endpoints.loadProject) {
+            try {
+                const response = await axios.get(`${apiConfig.baseURL}${apiConfig.endpoints.loadProject}`, {
+                    headers: apiConfig.headers,
+                });
+                const projectData = response.data;
+            } catch (error) {
+                console.error('Erro ao carregar o projeto da API:', error);
+                fileInputRef.current.click();
+            }
+        } else {
+            fileInputRef.current.click();
+        }
+    };
+
+    const SaveJson = async () => {
+        const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${projectData?.nome_projeto || 'projeto'}.json`;
+            link.click();
+    }
+
+    const handleSaveUnified = async () => {
+        if (apiConfig.baseURL && apiConfig.endpoints.saveProject) {
+            try {
+                const response = await axios.post(`${apiConfig.baseURL}${apiConfig.endpoints.saveProject}`, projectData, {
+                    headers: apiConfig.headers,
+                });
+            } catch (error) {
+                console.error('Erro ao salvar o projeto na API:', error);
+                SaveJson(); 
+            }
+        } else {
+            SaveJson();
+        }
+    };
 
     return (
         <div className="h-screen w-screen bg-gray-100 flex flex-col">
@@ -107,10 +146,10 @@ export default function App() {
                     <button onClick={() => openActivityModal()} disabled={!isEditable} className={`flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow transition-colors ${!isEditable && 'btn-disabled'}`} title={t('buttons.newActivity')}>
                         {icons.newActivity} 
                     </button>
-                    <button onClick={handleSave} disabled={!isProjectLoaded} className={`flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow transition-colors ${!isProjectLoaded && 'btn-disabled'}`} title={t('buttons.saveJson')}>
+                    <button onClick={handleSaveUnified} disabled={!isProjectLoaded} className={`flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow transition-colors ${!isProjectLoaded && 'btn-disabled'}`} title={t('buttons.saveJson')}>
                         {icons.save}
                     </button>
-                    <button onClick={handleLoadClick} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow transition-colors" title={t('buttons.loadJson')}>
+                    <button onClick={handleLoadClickUnified} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow transition-colors" title={t('buttons.loadJson')}>
                         {icons.load}
                     </button>
                     <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".json" className="hidden" />
@@ -119,7 +158,7 @@ export default function App() {
             <main className="flex-grow">
                 {isProjectLoaded ? 
                     <DiagramCanvas /> : 
-                    <EmptyState onNewProject={handleNewProject} onLoadProject={handleLoadClick} />
+                    <EmptyState onNewProject={handleNewProject} onLoadProject={handleLoadClickUnified} />
                 }
             </main>
             
