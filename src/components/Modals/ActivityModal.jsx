@@ -97,8 +97,8 @@ export default function ActivityModal({ isOpen, onClose, activity, onSave, isRea
     const otherActivities = projectData?.atividades.filter(a => a.id !== formData.id) || [];
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4">
+            <div className="bg-white rounded-lg shadow-xl p-6 max-w-[90vh] max-h-[90vh] overflow-y-auto">
                 <h2 className="text-xl font-bold mb-4">{isReadOnly ? t('modals.activityDetailsTitle') : (activity ? t('modals.activityEditTitle') : t('modals.activityNewTitle'))}</h2>
                 <form onSubmit={handleSubmit}>
                     <fieldset disabled={isReadOnly} className="space-y-4">
