@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from './context/AppContext';
 import { icons } from './config/icons';
 import { format } from 'date-fns';
@@ -7,6 +7,7 @@ import EmptyState from './components/UI/EmptyState';
 import LanguageSwitcher from './components/UI/LanguageSwitcher';
 import ActivityModal from './components/Modals/ActivityModal';
 import ProjectModal from './components/Modals/ProjectModal';
+import SearchProjectsModal from './components/Modals/SearchProjectsModal';
 import { useTranslation } from 'react-i18next';
 import apiConfig from './config/apiConfig';
 import axios from 'axios';
@@ -31,6 +32,7 @@ export default function App() {
     const { t } = useTranslation();
     const isProjectLoaded = !!projectData;
     const isEditable = isProjectLoaded && projectData.editavel;
+    const [searchProjectsModal, setSearchProjectsModal] = useState(false);
 
     const statusColors = {
         [t('status.planning')]: 'bg-gray-500',
@@ -58,13 +60,23 @@ export default function App() {
 
     const handleLoadClickUnified = async () => {
         if (apiConfig.baseURL && apiConfig.endpoints.loadProject) {
+            setSearchProjectsModal(true);
+        } else {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleSelectProject = async (projectId) => {
+        if (apiConfig.baseURL && apiConfig.endpoints.saveProject) {
             try {
                 const response = await axios.get(`${apiConfig.baseURL}${apiConfig.endpoints.loadProject}`, {
+                    params: { id: projectId },
                     headers: apiConfig.headers,
                 });
-                const projectData = response.data;
+                setProjectData(response.data);
+                setSearchProjectsModal(false);
             } catch (error) {
-                console.error('Erro ao carregar o projeto da API:', error);
+                console.error('Erro ao carregar o projeto:', error);
                 fileInputRef.current.click();
             }
         } else {
@@ -185,6 +197,11 @@ export default function App() {
             </footer>
             <ActivityModal isOpen={activityModal.isOpen} onClose={closeActivityModal} activity={activityModal.activity} onSave={saveActivity} isReadOnly={activityModal.isReadOnly || !isEditable} />
             <ProjectModal isOpen={projectModal.isOpen} onClose={() => setProjectModal({isOpen: false, isCreating: false})} onSave={saveProjectDetails} isCreating={projectModal.isCreating} />
+            <SearchProjectsModal
+                isOpen={searchProjectsModal}
+                onClose={() => setSearchProjectsModal(false)}
+                onSelectProject={handleSelectProject}
+            />
         </div>
     );
 }

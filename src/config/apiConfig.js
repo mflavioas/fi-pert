@@ -3,6 +3,7 @@ const apiConfig = {
     endpoints: {
         loadProject: '', // Endpoint para carregar o projeto (/projects/load)
         saveProject: '', // Endpoint para salvar o projeto (/projects/save)
+        searchProjects: '', // Endpoint para buscar projetos (/projects/search)
     },
     headers: {
         'Content-Type': 'application/json',

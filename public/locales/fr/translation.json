@@ -20,7 +20,8 @@
     "close": "Fermer",
     "edit": "Éditer",
     "addResponsible": "Ajouter un responsable",
-    "addAttachment": "Ajouter une pièce jointe"
+    "addAttachment": "Ajouter une pièce jointe",
+    "search": "Rechercher"
   },
   "status": {
     "planning": "Planification",
@@ -60,7 +61,14 @@
     "addAttachments": "Ajouter une pièce jointe",
     "addComment": "Ajouter un commentaire",
     "newComment": "Nouveau commentaire",
-    "comments": "Commentaires"
+    "comments": "Commentaires",
+    "searchProjectsTitle": "Rechercher des projets",
+    "searchPlaceholder": "Rechercher par OS ou description",
+    "projectId": "ID",
+    "projectOS": "OS",
+    "projectDescription": "Description",
+    "actions": "Actions",
+    "noProjectsFound": "Aucun projet trouvé"
   },
   "contextMenu": {
     "viewDetails": "Voir les détails",

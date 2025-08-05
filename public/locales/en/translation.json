@@ -20,7 +20,8 @@
     "close": "Close",
     "edit": "Edit",
     "addResponsible": "Add Responsible",
-    "addAttachment": "Add Attachment"
+    "addAttachment": "Add Attachment",
+    "search": "Search"
   },
   "status": {
     "planning": "Planning",
@@ -60,7 +61,14 @@
     "addAttachments": "Add Attachment",
     "addComment": "Add Comment",
     "newComment": "New Comment",
-    "comments": "Comments"
+    "comments": "Comments",
+    "searchProjectsTitle": "Search Projects",
+    "searchPlaceholder": "Search by OS or description",
+    "projectId": "ID",
+    "projectOS": "OS",
+    "projectDescription": "Description",
+    "actions": "Actions",
+    "noProjectsFound": "No projects found"
   },
   "contextMenu": {
     "viewDetails": "View Details",
